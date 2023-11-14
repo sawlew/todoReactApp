@@ -4,7 +4,7 @@ import { getLocalStorage, setLocalStorage } from './utils/local-storage';
 import './App.css';
 import { TodoLoader } from './components/TodoLoader';
 import { TodoList } from './components/TodoList';
-
+import { showConfirmModal } from './utils/showModal';
 
 const todo_ls_name = import.meta.env.VITE_TODO_LOCAL_STORAGE_NAME;
 function App() {
@@ -38,7 +38,6 @@ function App() {
         title: todoInput,
         created_at: new Date().toLocaleString(),
     };
-
     
     // check for ls
     const todos = getLocalStorage(todo_ls_name);
@@ -48,11 +47,36 @@ function App() {
 
     setLocalStorage(todo_ls_name, new_todos);
 
+    //Update the state with the new array of todos
+    setTodos(newTodo);
+
+    //Clear the input field
+    setTodoInput("");
+
     } catch(error){
       //Show
     }
     fetchTodos();
-  }
+  };
+
+  //Delete function
+  const handleDelete = (id) => {
+    const deleteTodo = () =>{
+      const todo_db = getLocalStorage(todo_ls_name);
+      const new_todo_db = todo_db.filter((todo) => todo.id !== id);
+      setLocalStorage(todo_ls_name, new_todo_db);
+      fetchTodos();
+    };
+
+    showConfirmModal({
+      title: 'Delete Todo!',
+      text: 'Do you want to delete this todo?',
+      icon: 'warning',
+      confirmButtonText: 'Yes!',
+      showCancelButton: true,
+      cb: deleteTodo,
+    });
+  };
 
   const fetchTodos = () => {
     const _todos = getLocalStorage(todo_ls_name);
@@ -102,6 +126,7 @@ function App() {
                 id={id}
                 created_at={created_at}
                 key={`todo-list-${id}`}
+                handleDelete={handleDelete}
                 />;
               })}
               </div>}
