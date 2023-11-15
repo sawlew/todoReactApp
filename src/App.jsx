@@ -31,6 +31,19 @@ function App() {
           });
         }, 5000);
         console.log(todos);
+      }else if (todoInput.trim() == ""){
+        setFormError({
+          isError: true,
+          errorMessage: "Todo field can't be whitespace only",
+        });
+
+        setTimeout(() => {
+          setFormError({
+            isError: false,
+            errorMessage: null,
+          });
+        }, 5000);
+        console.log(todos);
       }
 
       const newTodo = {
@@ -93,8 +106,7 @@ function App() {
     }, []);
  
   return (
-    <div>
-        <div>
+    <div className='h-screen'>
           <h1 className="text-center text-white text-2xl font-extrabold my-5">MY TODO APP</h1>
           <div className="border w-[90%] h-[100px] mx-auto p-5 rounded-lg bg-white lg:w-1/2">
             <div className="w-full h-[50px] mx-auto gap-2 flex justify-between items-start">
@@ -112,30 +124,27 @@ function App() {
             {formError.isError && (
               <p className="text-center text-red-500">{formError.errorMessage}</p>
             )}
-            
           </div>
           
-            <div className="border bg-white w-[90%] lg:w-1/2 min-h-[20%] max-h-[70%] p-5 my-5 mx-auto rounded-lg overflow-y-scroll no-scroll scroll-smooth" id="display-box">
-            {loadingTodos ? <TodoLoader /> : <div>
-            {!loadingTodos && todos.length === 0 && (
-              <p className="text-center pt-5 text-blue-300">Your todos will appear here</p>
-              )}
-              {todos.map(({title, id, created_at}) => {
-                return <TodoList
-                title={title}
-                id={id}
-                created_at={created_at}
-                key={`todo-list-${id}`}
-                handleDelete={handleDelete}
-                />;
-              })}
+          <div className="border bg-white w-[90%] lg:w-1/2 min-h-[20%] max-h-[70%] p-5 my-5 mx-auto rounded-lg overflow-y-scroll no-scroll scroll-smooth" id="display-box">
+            {loadingTodos ? <TodoLoader /> : 
+            <div>
+              {!loadingTodos && todos.length === 0 && (
+                <p className="text-center pt-5 text-blue-300">Your todos will appear here</p>
+                )}
+                {todos.map(({title, id, created_at}) => {
+                  return <TodoList
+                  title={title}
+                  id={id}
+                  created_at={created_at}
+                  key={`todo-list-${id}`}
+                  handleDelete={handleDelete}
+                  />
+                })}
               </div>}
             
             
             </div>
-          
-          
-        </div>
 
     </div>
   )

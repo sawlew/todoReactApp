@@ -5,8 +5,8 @@ export const TodoList = (props) => {
 
   return (
     <div className="group flex justify-between p-3 mb-5 rounded bg-blue-100 hover:bg-blue-200">
-        <a href={`/${id}`}>
-            <p className="truncate cursor-pointer">{title}</p>
+        <a href={`/${id}`} className="truncate cursor-pointer">
+            {title}
         </a>
     
     <div className="w-[20%] md:w-[10%] lg:w-[10%] justify-between hidden group-hover:flex cursor-pointer">
