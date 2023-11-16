@@ -1,16 +1,17 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export const TodoList = (props) => {
-  const { id, title, created_at, handleDelete } = props;
+  const { id, title, created_at, handleDelete, handleEditMode } = props;
 
   return (
     <div className="group flex justify-between p-3 mb-5 rounded bg-blue-100 hover:bg-blue-200">
-        <a href={`/${id}`} className="truncate cursor-pointer">
+        <Link to={`/todo/${id}`} className="truncate cursor-pointer">
             {title}
-        </a>
+        </Link>
     
     <div className="w-[20%] md:w-[10%] lg:w-[10%] justify-between hidden group-hover:flex cursor-pointer">
-        <button>
+        <button onClick={() => handleEditMode(id)}>
             <svg xmlns="http://www.w3.org/2000/svg" color="blue" 
             // onclick="handleEditMode('${todo.id}')"
             fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
